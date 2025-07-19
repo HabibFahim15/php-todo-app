@@ -1,7 +1,32 @@
 <?php
 
+const TASKS_FILE = 'tasks.json';
+
+function saveTasks(array $tasks):void
+{
+    file_put_contents(TASKS_FILE, json_encode($tasks, JSON_PRETTY_PRINT)); //json encode converts php array to json
+}
+
+function loadTasks(){
+    if(!file_exists(TASKS_FILE)) {
+        return [];
+    }
+    $data = file_get_contents(TASKS_FILE);
+    return $data ? json_decode($data, true) : [];
+}
+
+$tasks = loadTasks();
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+    if(isset($_POST['task']) && !empty(trim($_POST['task']))) {
+        $tasks[] = [
+            "task" => htmlspecialchars(trim($_POST['task'])),
+            "done" => false
+        ];
+        saveTasks($tasks);
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
 }
 
 ?>
