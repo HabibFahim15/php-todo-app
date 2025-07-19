@@ -94,9 +94,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- TODO: Loop through tasks array and display each task with a toggle and delete option -->
                 <!-- If there are no tasks, display a message saying "No tasks yet. Add one above!" -->
                 
+                <?php if(empty($tasks)): ?>
+
                      <li>No tasks yet. Add one above!</li>
+
+                <?php else :  ?>
                     <!-- if there are tasks, display each task with a toggle and delete option -->
-                 
+                <?php foreach($tasks as $index => $task):?>
                     
                         <li class="task-item">
                             <form method="POST" style="flex-grow: 1;">
@@ -104,7 +108,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                            
                             <button type="submit" style="border: none; background: none; cursor: pointer; text-align: left; width: 100%;">
                         <span class="task">
-                          Task 1
+                          <?php echo $task['task']; ?>
+                          
                         </span>
                     </button>
                      </form>
@@ -114,7 +119,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="button button-outline" style="margin-left: 10px;">Delete</button>
                      </form>
                         </li>
-
+                <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
 
         </div>
